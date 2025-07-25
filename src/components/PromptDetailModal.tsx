@@ -30,6 +30,13 @@ export function PromptDetailModal({ prompt, open, onClose }: Props) {
           ))}
         </div>
         <div className="border-t border-dashed border-green-200 my-4" />
+        <div className="mt-4">
+          <h4 className="text-sm font-medium text-muted-foreground mb-2">Prompt Content</h4>
+          <div className="p-2 text-sm text-green-900 whitespace-pre-line">
+            {prompt.content}
+          </div>
+        </div>
+        <div className="border-t border-dashed border-green-200 my-4" />
         <div className="text-sm">
           <strong>Status:</strong>{" "}
           <span className={prompt.status === 'active' ? "text-green-600" : "text-gray-500"}>

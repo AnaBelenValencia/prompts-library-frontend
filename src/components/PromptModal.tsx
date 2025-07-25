@@ -11,6 +11,7 @@ import { Input } from './ui/input'
 import { Textarea } from './ui/textarea'
 import { Button } from './ui/button'
 import { Label } from './ui/label'
+import { TagInput } from './ui/taginput'
 import {
   Tooltip,
   TooltipContent,
@@ -30,7 +31,7 @@ export function PromptModal({ onPromptCreated }: Props) {
   const [open, setOpen] = useState(false)
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
-  const [tags, setTags] = useState('')
+  const [tags, setTags] = useState<string[]>([])
   const [loading, setLoading] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -57,7 +58,7 @@ export function PromptModal({ onPromptCreated }: Props) {
         body: JSON.stringify({
           title,
           content,
-          tags: tags.split(',').map(tag => tag.trim()),
+          tags,
           status: 'inactive'
         }),
       })
@@ -69,7 +70,7 @@ export function PromptModal({ onPromptCreated }: Props) {
         onPromptCreated?.(data)
         setTitle('')
         setContent('')
-        setTags('')
+        setTags([])
         setOpen(false)
       } else {
         throw new Error(data.message || 'Something went wrong')
@@ -134,12 +135,7 @@ export function PromptModal({ onPromptCreated }: Props) {
 
           <div>
             <Label htmlFor="tags" className="mb-2">Tags</Label>
-            <Input
-              id="tags"
-              value={tags}
-              onChange={(e) => setTags(e.target.value)}
-              placeholder="e.g. chatbot, moderation"
-            />
+            <TagInput tags={tags} setTags={setTags} />
           </div>
 
           <Button
