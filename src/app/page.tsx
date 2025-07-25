@@ -30,7 +30,7 @@ export default function HomePage() {
   const handleStatusChange = (id: string, newStatus: 'active' | 'inactive') => {
     setPrompts(prev =>
       prev.map(prompt =>
-        prompt.id === id ? { ...prompt, status: newStatus } : prompt
+        prompt._id === id ? { ...prompt, status: newStatus } : prompt
       )
     )
   }
@@ -106,7 +106,7 @@ export default function HomePage() {
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {filteredPrompts.map((prompt, index) => (
           <motion.div
-            key={prompt.id}
+            key={prompt._id}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: index * 0.05 }}

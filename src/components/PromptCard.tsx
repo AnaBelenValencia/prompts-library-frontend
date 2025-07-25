@@ -36,7 +36,7 @@ export function PromptCard({ prompt, onStatusChange, onViewDetails } : Props ) {
     setLoading(true)
 
     try {
-      const res = await fetch(`${baseApiUrl}/prompts/${prompt.id}`, {
+      const res = await fetch(`${baseApiUrl}/prompts/${prompt._id}`, {
         method: "PATCH",
         headers: {
             "Content-Type": "application/json",
@@ -45,7 +45,7 @@ export function PromptCard({ prompt, onStatusChange, onViewDetails } : Props ) {
       })
 
       if (res.ok) {
-        onStatusChange(prompt.id, newStatus)
+        onStatusChange(prompt._id, newStatus)
         toast.success('Prompt updated', {
           description: `Status changed to ${newStatus.toUpperCase()}`
         })
