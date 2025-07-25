@@ -41,6 +41,11 @@ export function PromptModal({ onPromptCreated }: Props) {
       return
     }
 
+    if (title.length < 3 || content.length < 5) {
+      toast.warning('Please fill in more complete content')
+      return
+    }
+
     setLoading(true)
 
     try {
@@ -68,10 +73,12 @@ export function PromptModal({ onPromptCreated }: Props) {
         setOpen(false)
       } else {
         throw new Error(data.message || 'Something went wrong')
+          toast.error('Error creating prompt', {
+          description: data.message || 'Please try again later.'
+        })
       }
     } catch (err) {
       console.error(err)
-      toast.error('Error creating prompt')
     } finally {
       setLoading(false)
     }

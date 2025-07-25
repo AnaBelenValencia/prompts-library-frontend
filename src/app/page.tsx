@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button'
 import { Prompt } from '@/types'
 import { cn } from '@/lib/utils'
 import { motion } from 'framer-motion'
+import { toast } from 'sonner'
 
 export default function HomePage() {
   const [prompts, setPrompts] = useState<Prompt[]>([])
@@ -17,10 +18,19 @@ export default function HomePage() {
 
 
   useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/prompts`)
-      .then(res => res.json())
-      .then(data => setPrompts(data))
-      .catch(err => console.error('Error loading prompts', err))
+    const loadPrompts = async () => {
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/prompts`)
+        const data = await res.json()
+        setPrompts(data)
+      } catch (error) {
+        console.error('Error loading prompts', error)
+        toast.error('Failed to losading prompts', {
+          description: 'Please try again later.'
+        })
+      }
+    }
+    loadPrompts()
   }, [])
 
   const allTags = Array.from(
@@ -30,7 +40,7 @@ export default function HomePage() {
   const handleStatusChange = (id: string, newStatus: 'active' | 'inactive') => {
     setPrompts(prev =>
       prev.map(prompt =>
-        prompt._id === id ? { ...prompt, status: newStatus } : prompt
+        prompt.id === id ? { ...prompt, status: newStatus } : prompt
       )
     )
   }
@@ -106,7 +116,7 @@ export default function HomePage() {
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {filteredPrompts.map((prompt, index) => (
           <motion.div
-            key={prompt._id}
+            key={prompt.id}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: index * 0.05 }}

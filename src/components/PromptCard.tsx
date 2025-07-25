@@ -5,7 +5,8 @@ import {
     CardContent,
     CardDescription,
     CardHeader,
-    CardTitle
+    CardTitle,
+    CardFooter
 } from './ui/card'
 import { Switch } from './ui/switch'
 import { Button } from './ui/button'
@@ -35,7 +36,7 @@ export function PromptCard({ prompt, onStatusChange, onViewDetails } : Props ) {
     setLoading(true)
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/prompts/${prompt._id}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/prompts/${prompt.id}`, {
         method: "PATCH",
         headers: {
             "Content-Type": "application/json",
@@ -44,7 +45,7 @@ export function PromptCard({ prompt, onStatusChange, onViewDetails } : Props ) {
       })
 
       if (res.ok) {
-        onStatusChange(prompt._id, newStatus)
+        onStatusChange(prompt.id, newStatus)
         toast.success('Prompt updated', {
           description: `Status changed to ${newStatus.toUpperCase()}`
         })
@@ -117,9 +118,9 @@ export function PromptCard({ prompt, onStatusChange, onViewDetails } : Props ) {
           disabled={loading}
         />
       </div>
-      <div className="text-xs text-muted-foreground text-center">
+      <CardFooter className="text-xs text-muted-foreground text-center pt-2">
         Created at: {new Date(prompt.created_at).toLocaleString()}
-      </div>
+      </CardFooter>
     </Card>
   )
 }
