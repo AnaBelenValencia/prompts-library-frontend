@@ -20,7 +20,6 @@ import { Eye } from 'lucide-react'
 import { Prompt } from './../types'
 import { useState } from 'react'
 import { toast } from 'sonner'
-import { baseApiUrl } from '@/lib/utils'
 
 type Props = {
     prompt: Prompt
@@ -36,7 +35,7 @@ export function PromptCard({ prompt, onStatusChange, onViewDetails } : Props ) {
     setLoading(true)
 
     try {
-      const res = await fetch(`${baseApiUrl}/prompts/${prompt._id}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/prompts/${prompt._id}`, {
         method: "PATCH",
         headers: {
             "Content-Type": "application/json",

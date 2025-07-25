@@ -6,7 +6,7 @@ import { PromptModal } from '@/components/PromptModal'
 import { PromptDetailModal } from '@/components/PromptDetailModal'
 import { Button } from '@/components/ui/button'
 import { Prompt } from '@/types'
-import { cn, baseApiUrl } from '@/lib/utils'
+import { cn } from '@/lib/utils'
 import { motion } from 'framer-motion'
 
 export default function HomePage() {
@@ -17,7 +17,7 @@ export default function HomePage() {
 
 
   useEffect(() => {
-    fetch(`${baseApiUrl}/prompts`)
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/prompts`)
       .then(res => res.json())
       .then(data => setPrompts(data))
       .catch(err => console.error('Error loading prompts', err))

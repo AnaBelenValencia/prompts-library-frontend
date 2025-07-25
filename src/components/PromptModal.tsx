@@ -21,7 +21,6 @@ import { Plus } from 'lucide-react'
 import { toast } from 'sonner'
 import { useState } from 'react'
 import { Prompt } from '@/types'
-import { baseApiUrl } from '@/lib/utils'
 
 type Props = {
   onPromptCreated?: (prompt: Prompt) => void
@@ -45,7 +44,7 @@ export function PromptModal({ onPromptCreated }: Props) {
     setLoading(true)
 
     try {
-      const res = await fetch(`${baseApiUrl}/prompts`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/prompts`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
